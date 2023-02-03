@@ -8,23 +8,37 @@ interface UserRequest {
 }
 
 class CreateUserService {
-  async execute({name, email, password}: UserRequest){
-   if(!email){
+  async execute({ name, email, password }: UserRequest) {
+    if (!email) {
       throw new Error("Email incorrect");
-   }
+    }
 
-   const userAlreadyExists = await prismaClient.user.findFirst({
+    const userAlreadyExists = await prismaClient.user.findFirst({
       where: {
-        email: email
-      }
-   })
+        email: email,
+      },
+    });
 
-   if(userAlreadyExists){
+    if (userAlreadyExists) {
       throw new Error("User/Email already exists");
-   }
+    }
 
-   return { ok: 'ok'}
+    const passwordHash = await hash(password, 8);
+
+    const user = await prismaClient.user.create({
+      data: {
+        name: name,
+        email: email,
+        password: passwordHash,
+      },
+      select: {
+        name: true,
+        email: true,
+      },
+    });
+
+    return user;
   }
 }
 
-export { CreateUserService }
+export { CreateUserService };
