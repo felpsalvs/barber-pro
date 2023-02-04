@@ -16,5 +16,13 @@ export function isAuthenticated(
     return response.status(401).json();
   }
 
-  console.log(authToken);
+  const [, token] = authToken.split(" ");
+
+  try {
+    const { sub } = verify(token, process.env.JWT_SECRET) as PayLoad;
+
+    return next();
+  } catch (err) {
+    return response.status(401).end();
+  }
 }
