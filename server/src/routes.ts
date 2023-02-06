@@ -1,9 +1,9 @@
 import { Router, Request, Response } from 'express';
+import { isAuthenticated } from './middlewares/isAuthenticated';
 
 import { CreateUserController } from './controllers/user/CreateUserController';
 import { AuthUserController } from './controllers/user/AuthUserController';
 import { DetailUserController } from './controllers/user/DetailUserController';
-import { isAuthenticated } from './middlewares/isAuthenticated';
 import { UpdateUserController } from './controllers/user/UpdateUserController';
 
 import { CreateHaircutController } from './controllers/haircut/CreateHaircutController';
@@ -12,6 +12,8 @@ import { UpdateHaircutController } from './controllers/haircut/UpdateHaircutCont
 import { CheckSubscriptionController } from './controllers/haircut/CheckSubscriptionController';
 import { CountHaircutsController } from './controllers/haircut/CountHaircutsController';
 import { DetailHaircutController } from './controllers/haircut/DetailHaircutController';
+
+import { NewScheduleController } from './controllers/schedule/NewScheduleController';
 
 const router = Router();
 
@@ -28,5 +30,8 @@ router.put('/haircut', isAuthenticated, new UpdateHaircutController().handle)
 router.get('/haircut/check', isAuthenticated, new CheckSubscriptionController().handle)
 router.get('/haircut/count', isAuthenticated, new CountHaircutsController().handle)
 router.get('/haircut/detail', isAuthenticated, new DetailHaircutController().handle)
+
+// ROUTES SCHEDULES
+router.post('/schedule', isAuthenticated, new NewScheduleController().handle)
 
 export { router };
