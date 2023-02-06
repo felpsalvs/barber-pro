@@ -15,6 +15,7 @@ import { DetailHaircutController } from './controllers/haircut/DetailHaircutCont
 
 import { NewScheduleController } from './controllers/schedule/NewScheduleController';
 import { ListScheduleController } from './controllers/schedule/ListScheduleController';
+import { FinishScheduleController } from './controllers/schedule/FinishScheduleController';
 
 const router = Router();
 
@@ -35,5 +36,6 @@ router.get('/haircut/detail', isAuthenticated, new DetailHaircutController().han
 // ROUTES SCHEDULES
 router.post('/schedule', isAuthenticated, new NewScheduleController().handle)
 router.get('/schedule', isAuthenticated, new ListScheduleController().handle)
+router.delete('/schedule', isAuthenticated, new FinishScheduleController().handle)
 
 export { router };
