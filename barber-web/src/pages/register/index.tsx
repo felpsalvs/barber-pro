@@ -4,6 +4,14 @@ import logoImg from "../../../public/images/logo.svg";
 import { Button, Center, Flex, Input, Link, Text } from "@chakra-ui/react";
 
 export default function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+
+  function handleRegister() {
+    console.log(email, password, name);
+  }
+  
   return (
     <>
       <Head>
@@ -33,6 +41,8 @@ export default function Login() {
             variant="filled"
             size="lg"
             mb={3}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
           />
 
           <Input
@@ -42,6 +52,8 @@ export default function Login() {
             variant="filled"
             size="lg"
             mb={3}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
 
           <Input
@@ -51,6 +63,8 @@ export default function Login() {
             variant="filled"
             size="lg"
             mb={6}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
 
           <Button
@@ -58,6 +72,7 @@ export default function Login() {
             color="gray.900"
             size="lg"
             _hover={{ bg: "#ffb13e" }}
+            onClick={handleRegister}
           >
             Cadastrar
           </Button>
