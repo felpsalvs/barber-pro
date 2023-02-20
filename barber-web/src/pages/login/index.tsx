@@ -1,6 +1,5 @@
 import Head from "next/head";
 import Image from "next/image";
-import Link from "next/link";
 import logoImg from "../../../public/images/logo.svg";
 import { Button, Center, Flex, Input, Link, Text } from "@chakra-ui/react";
 
@@ -20,8 +19,8 @@ export default function Login() {
           <Center p={4}>
             <Image
               src={logoImg}
+              width={200}
               quality={100}
-              fill
               style={{ objectFit: "fill" }}
               alt="BarberPRO"
             />
@@ -54,9 +53,9 @@ export default function Login() {
             Acessar
           </Button>
 
-          <Center>
+          <Center mt={2}>
             <Link href="/register">
-              <Text cursor='pinter'>
+              <Text cursor='pointer'>
                 Ainda não possui conta? <strong>Cadastre-se</strong>
               </Text>
             </Link>
