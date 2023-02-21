@@ -2,6 +2,7 @@ import Head from "next/head";
 import Image from "next/image";
 import logoImg from "../../../public/images/logo.svg";
 import { Button, Center, Flex, Input, Link, Text } from "@chakra-ui/react";
+import { useState } from "react";
 
 export default function Login() {
   const [email, setEmail] = useState("");

@@ -2,14 +2,20 @@ import Head from "next/head";
 import Image from "next/image";
 import logoImg from "../../../public/images/logo.svg";
 import { Button, Center, Flex, Input, Link, Text } from "@chakra-ui/react";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
 export default function Login() {
+  const { signIn } = useContext(AuthContext);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  function handleLogin() {
-    console.log(email, password);
+  async function handleLogin() {
+    await signIn({
+      email,
+      password,
+    });
   }
 
   return (
@@ -68,7 +74,7 @@ export default function Login() {
 
           <Center mt={2}>
             <Link href="/register">
-              <Text cursor='pointer'>
+              <Text cursor="pointer">
                 Ainda não possui conta? <strong>Cadastre-se</strong>
               </Text>
             </Link>
