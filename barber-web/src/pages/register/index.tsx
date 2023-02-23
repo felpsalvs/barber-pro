@@ -4,6 +4,7 @@ import logoImg from "../../../public/images/logo.svg";
 import { Button, Center, Flex, Input, Link, Text } from "@chakra-ui/react";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import { canSSRGuest } from "../../utils/canSSRGuest";
 
 export default function Register() {
   const { signUp } = useContext(AuthContext);
@@ -84,7 +85,7 @@ export default function Register() {
             Cadastrar
           </Button>
 
-          <Center mt={2}>
+          <Center mt={2} color='gray.100'>
             <Link href="/login">
               <Text cursor="pointer">
                 Já possui uma conta? <strong>Entre</strong>
@@ -96,3 +97,9 @@ export default function Register() {
     </>
   );
 }
+
+export const getServerSideProps = canSSRGuest(async (ctx) => {
+  return {
+    props: {},
+  };
+});

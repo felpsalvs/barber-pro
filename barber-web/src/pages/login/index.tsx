@@ -4,6 +4,7 @@ import logoImg from "../../../public/images/logo.svg";
 import { Button, Center, Flex, Input, Link, Text } from "@chakra-ui/react";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import { canSSRGuest } from "../../utils/canSSRGuest";
 
 export default function Login() {
   const { signIn } = useContext(AuthContext);
@@ -12,6 +13,9 @@ export default function Login() {
   const [password, setPassword] = useState("");
 
   async function handleLogin() {
+    if (email === "" || password === "") {
+      return;
+    }
     await signIn({
       email,
       password,
@@ -63,6 +67,7 @@ export default function Login() {
           />
 
           <Button
+            mb={6}
             background="button.cta"
             color="gray.900"
             size="lg"
@@ -72,7 +77,7 @@ export default function Login() {
             Acessar
           </Button>
 
-          <Center mt={2}>
+          <Center mt={2} color='gray.100'>
             <Link href="/register">
               <Text cursor="pointer">
                 Ainda não possui conta? <strong>Cadastre-se</strong>
@@ -84,3 +89,9 @@ export default function Login() {
     </>
   );
 }
+
+export const getServerSideProps = canSSRGuest(async (ctx) => {
+  return {
+    props: {},
+  };
+});
