@@ -1,18 +1,19 @@
 import Head from "next/head";
 import { Flex, Text } from "@chakra-ui/react";
 import { canSSRAuth } from "../../utils/canSSRAuth";
+import { Sidebar } from "@/components/sidebar";
 
 export default function Dashboard() {
   return (
     <>
       <Head>
-        <title>Dashboard | Barber</title>
+        <title>BarberPRO - Minha barbearia</title>
       </Head>
-      <Flex as="main" w="100vw" h="100vh" align="center" justify="center">
-        <Text fontSize="5xl" fontWeight="bold">
-          Dashboard
-        </Text>
-      </Flex>
+      <Sidebar>
+        <Flex>
+          <Text>Bem-vindo ao Dashboard</Text>
+        </Flex>
+      </Sidebar>
     </>
   );
 }
