@@ -3,16 +3,31 @@ import Head from "next/head";
 import { Sidebar } from "../../components/sidebar";
 import Link from "next/link";
 import { canSSRAuth } from "../../utils/canSSRAuth";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import { setupAPIClient } from "../../services/api";
 
-export default function Profile() {
+interface UserProps {
+  id: string;
+  name: string;
+  email: string;
+  endereco: string | null;
+}
+
+interface ProfileProps {
+  user: UserProps;
+  premium: boolean;
+}
+
+export default function Profile({ user, premium }: ProfileProps) {
   const { logoutUser } = useContext(AuthContext);
-  
+  const [name, setName] = useState(user && user?.name);
+  const [endereco, setEndereco] = useState(user && user?.endereco);
+
   async function handleLogout() {
     await logoutUser();
   }
-  
+
   return (
     <>
       <Head>
@@ -56,6 +71,8 @@ export default function Profile() {
                 size="lg"
                 type="text"
                 mb={3}
+                value={name}
+                onChange={(e) => setName(e.target.value)}
               />
               <Text mb={2} fontSize="xl" fontWeight="bold" color="white">
                 Endereço:
@@ -67,6 +84,8 @@ export default function Profile() {
                 size="lg"
                 type="text"
                 mb={3}
+                value={endereco}
+                onChange={(e) => setEndereco(e.target.value)}
               />
 
               <Text mb={2} fontSize="xl" fontWeight="bold" color="white">
@@ -84,8 +103,12 @@ export default function Profile() {
                 alignItems="center"
                 justifyContent="space-between"
               >
-                <Text p={2} fontSize="lg" color="#4dffb4">
-                  Plano Grátis
+                <Text
+                  p={2}
+                  fontSize="lg"
+                  color={premium ? "#fba931" : "#4dffb4"}
+                >
+                  Plano {premium ? "Premium" : "Grátis"}
                 </Text>
                 <Link href="/planos">
                   <Box
@@ -134,7 +157,31 @@ export default function Profile() {
 }
 
 export const getServerSideProps = canSSRAuth(async (ctx) => {
-  return {
-    props:{}
+  try {
+    const apiClient = setupAPIClient(ctx);
+    const response = await apiClient.get("/me");
+
+    const user = {
+      id: response.data.id,
+      name: response.data.name,
+      email: response.data.email,
+      endereco: response.data?.endereco,
+    };
+
+    return {
+      props: {
+        user: user,
+        premium:
+          response.data?.subscriptions?.status === "active" ? true : false,
+      },
+    };
+  } catch (err) {
+    console.log(err);
+    return {
+      redirect: {
+        destination: "/dashboard",
+        permanent: false,
+      },
+    };
   }
-})
+});
