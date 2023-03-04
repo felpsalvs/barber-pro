@@ -149,6 +149,7 @@ export default function Profile({ user, premium }: ProfileProps) {
                 bg="button.cta"
                 size="lg"
                 _hover={{ bg: "#ffb13e" }}
+                onClick={handleUpdateUser}
               >
                 Salvar
               </Button>
