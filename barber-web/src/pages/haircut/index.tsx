@@ -12,6 +12,8 @@ import {
 import { IoMdPricetag } from "react-icons/io";
 
 import Link from "next/link";
+import { canSSRAuth } from "@/utils/canSSRAuth";
+import { setupAPIClient } from "@/services/api";
 
 export default function Haircuts() {
   const [isMobile] = useMediaQuery("(max-width: 500px)");
@@ -82,3 +84,23 @@ export default function Haircuts() {
     </>
   );
 }
+
+export const getServerSideProps = canSSRAuth(async (ctx) =>{
+  try {
+    const apiClient =setupAPIClient(ctx);
+    const response = await apiClient.get('/haircuts',
+    {
+      params:{
+        status: true,
+      }
+    })
+
+    if(response.data === null)
+  }
+
+  return {
+    props:{
+      haircuts: response.data
+    }
+  }
+})
