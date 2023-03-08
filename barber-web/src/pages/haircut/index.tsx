@@ -40,19 +40,19 @@ export default function Haircuts({ haircuts }: HaircutsProps) {
 
     if (e.target.value === "disabled") {
       setDisableHaircut("enabled");
-      const response = await apiClient.get('/haircuts',{
-        params:{
-          status: true
-        }
-      })
+      const response = await apiClient.get("/haircuts", {
+        params: {
+          status: true,
+        },
+      });
       setHaircutList(response.data);
     } else {
       setDisableHaircut("disabled");
-      const response = await apiClient.get('/haircuts',{
-        params:{
-          status: false
-        }
-      })
+      const response = await apiClient.get("/haircuts", {
+        params: {
+          status: false,
+        },
+      });
       setHaircutList(response.data);
     }
   }
@@ -102,6 +102,7 @@ export default function Haircuts({ haircuts }: HaircutsProps) {
               />
             </Stack>
           </Flex>
+
 
           {haircutList.map((haircut) => (
             <Link key={haircut.id} href={`/haircuts/${haircut.id}`}>
