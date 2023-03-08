@@ -36,10 +36,24 @@ export default function Haircuts({ haircuts }: HaircutsProps) {
   const [disableHaircut, setDisableHaircut] = useState("enabled");
 
   async function handleDisable(e: ChangeEvent<HTMLInputElement>) {
+    const apiClient = setupAPIClient();
+
     if (e.target.value === "disabled") {
       setDisableHaircut("enabled");
+      const response = await apiClient.get('/haircuts',{
+        params:{
+          status: true
+        }
+      })
+      setHaircutList(response.data);
     } else {
       setDisableHaircut("disabled");
+      const response = await apiClient.get('/haircuts',{
+        params:{
+          status: false
+        }
+      })
+      setHaircutList(response.data);
     }
   }
 
