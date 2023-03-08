@@ -97,7 +97,7 @@ export default function Haircuts({ haircuts }: HaircutsProps) {
                 value={disableHaircut}
                 isChecked={disableHaircut === "disabled" ? false : true}
                 onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  handleDisabled(e)
+                  handleDisable(e)
                 }
               />
             </Stack>
