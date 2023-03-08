@@ -14,9 +14,9 @@ import { IoMdPricetag } from "react-icons/io";
 import Link from "next/link";
 import { canSSRAuth } from "@/utils/canSSRAuth";
 import { setupAPIClient } from "../../services/api";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 
-interface HaircutsItem{
+interface HaircutsItem {
   id: string;
   name: string;
   price: number | string;
@@ -24,13 +24,24 @@ interface HaircutsItem{
   user_id: string;
 }
 
-interface HaircutsProps{
+interface HaircutsProps {
   haircuts: HaircutsItem[];
 }
 
 export default function Haircuts({ haircuts }: HaircutsProps) {
   const [isMobile] = useMediaQuery("(max-width: 500px)");
-  const [haircutList, setHaircutList] = useState<HaircutsItem[]>(haircuts || [])
+  const [haircutList, setHaircutList] = useState<HaircutsItem[]>(
+    haircuts || []
+  );
+  const [disableHaircut, setDisableHaircut] = useState("enabled");
+
+  async function handleDisable(e: ChangeEvent<HTMLInputElement>) {
+    if (e.target.value === "disabled") {
+      setDisableHaircut("enabled");
+    } else {
+      setDisableHaircut("disabled");
+    }
+  }
 
   return (
     <>
@@ -66,71 +77,83 @@ export default function Haircuts({ haircuts }: HaircutsProps) {
 
             <Stack ml="auto" align="center" direction="row">
               <Text fontWeight="bold">Ativos</Text>
-              <Switch colorScheme="green" size="lg" />
+              <Switch
+                colorScheme="green"
+                size="lg"
+                value={disableHaircut}
+                isChecked={disableHaircut === "disabled" ? false : true}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  handleDisabled(e)
+                }
+              />
             </Stack>
           </Flex>
 
-        {haircutList.map(haircut => (
-          <Link key={haircut.id} href={`/haircuts/${haircut.id}`}>
-            <Flex
-              cursor="pointer"
-              w="100%"
-              p={4}
-              bg="barber.400"
-              direction={isMobile ? 'column' : "row"}
-              align={isMobile ? 'flex-start' : 'center'}
-              rounded="4"
-              mb={2}
-              justifyContent="space-between"
-            >
-              <Flex mb={isMobile ? 2 : 0} direction="row" alignItems="center" justifyContent="center">
-                <IoMdPricetag size={28} color="#fba931" />
-                <Text fontWeight="bold" ml={4} noOfLines={2} color="white">
-                  {haircut.name}
+          {haircutList.map((haircut) => (
+            <Link key={haircut.id} href={`/haircuts/${haircut.id}`}>
+              <Flex
+                cursor="pointer"
+                w="100%"
+                p={4}
+                bg="barber.400"
+                direction={isMobile ? "column" : "row"}
+                align={isMobile ? "flex-start" : "center"}
+                rounded="4"
+                mb={2}
+                justifyContent="space-between"
+              >
+                <Flex
+                  mb={isMobile ? 2 : 0}
+                  direction="row"
+                  alignItems="center"
+                  justifyContent="center"
+                >
+                  <IoMdPricetag size={28} color="#fba931" />
+                  <Text fontWeight="bold" ml={4} noOfLines={2} color="white">
+                    {haircut.name}
+                  </Text>
+                </Flex>
+                <Text fontWeight="bold" color="white">
+                  Preço: R$ {haircut.price}
                 </Text>
               </Flex>
-              <Text fontWeight="bold" color="white">
-                Preço: R$ {haircut.price}
-              </Text>
-            </Flex>
-          </Link>
-        ))}
+            </Link>
+          ))}
         </Flex>
       </Sidebar>
     </>
   );
 }
 
-export const getServerSideProps = canSSRAuth(async (ctx) =>{
+export const getServerSideProps = canSSRAuth(async (ctx) => {
   try {
-    const apiClient =setupAPIClient(ctx);
-    const response = await apiClient.get('/haircuts',
-    {
-      params:{
+    const apiClient = setupAPIClient(ctx);
+    const response = await apiClient.get("/haircuts", {
+      params: {
         status: true,
-      }
-    })
+      },
+    });
 
-    if(response.data === null){
-      return{
-        redirect:{
-          destination: '/dashboard',
+    if (response.data === null) {
+      return {
+        redirect: {
+          destination: "/dashboard",
           permanent: false,
-        }
-      }
+        },
+      };
     }
     return {
-      props:{
-        haircuts: response.data
-      }
-  }
-  }catch(err){
+      props: {
+        haircuts: response.data,
+      },
+    };
+  } catch (err) {
     console.log(err);
-    return{
-      redirect:{
-        destination: '/dashboard',
+    return {
+      redirect: {
+        destination: "/dashboard",
         permanent: false,
-      }
-    }
+      },
+    };
   }
-})
+});
