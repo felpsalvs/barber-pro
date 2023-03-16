@@ -5,7 +5,6 @@ import {
   Heading,
   Button,
   useMediaQuery,
-  Link,
   Input,
   Stack,
   Switch,
@@ -13,6 +12,7 @@ import {
 
 import { Sidebar } from "../../components/sidebar";
 import { FiChevronLeft } from "react-icons/fi";
+import Link from 'next/link'
 
 export default function EditHaircut() {
   const [isMobile] = useMediaQuery("(max-width: 500px)");
