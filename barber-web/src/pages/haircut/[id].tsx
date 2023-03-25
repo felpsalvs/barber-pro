@@ -15,6 +15,7 @@ import { FiChevronLeft } from "react-icons/fi";
 import Link from "next/link";
 import { canSSRAuth } from "@/utils/canSSRAuth";
 import { setupAPIClient } from "@/services/api";
+import { ChangeEvent, useState } from "react";
 
 interface HaircutProps {
   id: string;
@@ -39,6 +40,41 @@ export default function EditHaircut({
   haircut,
 }: EditHaircutProps) {
   const [isMobile] = useMediaQuery("(max-width: 500px)");
+
+  const [name, setName] = useState(haircut?.name);
+  const [price, setPrice] = useState(haircut?.price);
+  const [status, setStatus] = useState(haircut?.status);
+
+  const [disableHaircut, setDisableHaircut] = useState(
+    haircut?.status ? "disabled" : "enabled"
+  );
+
+  function handleChangeStatus(e: ChangeEvent<HTMLInputElement>) {
+    if (e.target.value === "disabled") {
+      setDisableHaircut("enabled");
+      setStatus(false);
+    } else {
+      setDisableHaircut("disabled");
+      setStatus(true);
+    }
+  }
+
+  async function handleUpdate() {
+    if (name === "" || price === "") {
+      return;
+    }
+    try {
+      const apiClient = setupAPIClient();
+      await apiClient.put("/haircut", {
+        name: name,
+        price: Number(price),
+        status: status,
+        haircut_id: haircut?.id,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   return (
     <>
@@ -97,6 +133,8 @@ export default function EditHaircut({
                 size="lg"
                 type="text"
                 w="100%"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
               />
               <Input
                 placeholder="Valor do seu corte"
@@ -105,11 +143,21 @@ export default function EditHaircut({
                 size="lg"
                 type="number"
                 w="100%"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
               />
 
               <Stack mb={6} align="center" direction="row">
                 <Text fontWeight="bold">Desativar corte</Text>
-                <Switch size="lg" colorScheme="red" />
+                <Switch
+                  value={disableHaircut}
+                  isChecked={disableHaircut === "disabled" ? false : true}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                    handleChangeStatus(e)
+                  }
+                  size="lg"
+                  colorScheme="red"
+                />
               </Stack>
 
               <Button
@@ -126,7 +174,12 @@ export default function EditHaircut({
               {subscription?.status !== "active" && (
                 <Flex direction="row" align="center" justify="center">
                   <Link href="/planos">
-                    <Text cursor='pointer' fontWeight="bold" mr={1} color="#31fb6a">
+                    <Text
+                      cursor="pointer"
+                      fontWeight="bold"
+                      mr={1}
+                      color="#31fb6a"
+                    >
                       Seja premium
                     </Text>
                   </Link>
