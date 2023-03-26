@@ -86,7 +86,9 @@ export default function Haircuts({ haircuts }: HaircutsProps) {
             </Heading>
 
             <Link href="/haircuts/new">
-              <Button>Cadastrar novo</Button>
+              <Button bg="gray.700" _hover={{ background: "gray.700" }}>
+                Cadastrar novo
+              </Button>
             </Link>
 
             <Stack ml="auto" align="center" direction="row">
@@ -102,7 +104,6 @@ export default function Haircuts({ haircuts }: HaircutsProps) {
               />
             </Stack>
           </Flex>
-
 
           {haircutList.map((haircut) => (
             <Link key={haircut.id} href={`/haircuts/${haircut.id}`}>

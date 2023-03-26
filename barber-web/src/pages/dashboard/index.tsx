@@ -56,7 +56,6 @@ export default function Dashboard({ schedule }: DashboardProps) {
       });
       setList(filterItem);
       onClose();
-      
     } catch (err) {
       console.log(err);
       onClose();
@@ -76,7 +75,9 @@ export default function Dashboard({ schedule }: DashboardProps) {
               Agenda
             </Heading>
             <Link href="/new">
-              <Button>Registrar</Button>
+              <Button bg="gray.700" _hover={{ background: "gray.700" }}>
+                Registrar
+              </Button>
             </Link>
           </Flex>
 

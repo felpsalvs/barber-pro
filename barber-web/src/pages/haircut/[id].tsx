@@ -96,6 +96,8 @@ export default function EditHaircut({
           >
             <Link href="/haircuts">
               <Button
+                bg="gray.700"
+                _hover={{ background: "gray.700" }}
                 mr={3}
                 p={4}
                 display="flex"

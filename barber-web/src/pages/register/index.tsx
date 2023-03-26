@@ -51,6 +51,7 @@ export default function Register() {
             mb={3}
             value={name}
             onChange={(e) => setName(e.target.value)}
+            color="white"
           />
 
           <Input
@@ -62,6 +63,7 @@ export default function Register() {
             mb={3}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            color="white"
           />
 
           <Input
@@ -73,6 +75,7 @@ export default function Register() {
             mb={6}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            color="white"
           />
 
           <Button
@@ -85,7 +88,7 @@ export default function Register() {
             Cadastrar
           </Button>
 
-          <Center mt={2} color='gray.100'>
+          <Center mt={2} color="gray.100">
             <Link href="/login">
               <Text cursor="pointer">
                 Já possui uma conta? <strong>Entre</strong>

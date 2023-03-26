@@ -53,6 +53,7 @@ export default function Login() {
             mb={3}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            color="white"
           />
 
           <Input
@@ -64,6 +65,7 @@ export default function Login() {
             mb={6}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            color="white"
           />
 
           <Button
@@ -77,7 +79,7 @@ export default function Login() {
             Acessar
           </Button>
 
-          <Center mt={2} color='gray.100'>
+          <Center mt={2} color="gray.100">
             <Link href="/register">
               <Text cursor="pointer">
                 Ainda não possui conta? <strong>Cadastre-se</strong>

@@ -7,7 +7,7 @@ export default function Home() {
       <Head>
         <title>BarberPRO - O sistema da barbeiro</title>
       </Head>
-      <Flex background='barber.900'>
+      <Flex background="barber.900">
         <Text>Home</Text>
       </Flex>
     </>

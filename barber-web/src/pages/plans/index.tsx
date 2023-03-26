@@ -105,7 +105,13 @@ export default function Plans({ premium }: PlansProps) {
                 R$ 9.99
               </Text>
 
-              <Button bg={premium ? 'transparent' : "button.cta"} disabled={premium} m={2} color="white" onClick={() => {}}>
+              <Button
+                bg={premium ? "transparent" : "button.cta"}
+                disabled={premium}
+                m={2}
+                color="white"
+                onClick={() => {}}
+              >
                 {premium ? "VOCÊ JÁ É PREMIUM" : "VIRAR PREMIUM"}
               </Button>
               {premium && (
@@ -115,7 +121,9 @@ export default function Plans({ premium }: PlansProps) {
                   color="barber.900"
                   fontWeight="bold"
                   onClick={() => {}}
-                >ALTERAR ASSINATURA</Button>
+                >
+                  ALTERAR ASSINATURA
+                </Button>
               )}
             </Flex>
           </Flex>
