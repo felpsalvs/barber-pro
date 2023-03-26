@@ -37,9 +37,31 @@ export default function Dashboard({ schedule }: DashboardProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [service, setService] = useState<ScheduleItem>();
 
-  function handleOpenModal(item: ScheduleItem){
+  function handleOpenModal(item: ScheduleItem) {
     setService(item);
     onOpen();
+  }
+
+  async function handleFinish(id: string) {
+    try {
+      const apiClient = setupAPIClient();
+      await apiClient.delete("/schedule", {
+        params: {
+          schedule: id,
+        },
+      });
+
+      const filterItem = list.filter((item) => {
+        return item?.id !== id;
+      });
+      setList(filterItem);
+      onClose();
+      
+    } catch (err) {
+      console.log(err);
+      onClose();
+      alert("Erro ao finalizar esse serviço");
+    }
   }
 
   return (
@@ -106,7 +128,7 @@ export default function Dashboard({ schedule }: DashboardProps) {
         onOpen={onOpen}
         onClose={onClose}
         data={service}
-        finishService={ async () => {}}
+        finishService={() => handleFinish(service?.id)}
       />
     </>
   );
