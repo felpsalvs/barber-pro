@@ -45,9 +45,3 @@ Instale com npm ou yarn
  yarn install or npm i (to install dependencies)
  npm run dev
 ```
-
-### Para rodar o mobile: 💻📲
-```bash
- yarn install or npm i (to install dependencies)
- npx expo start
-```
