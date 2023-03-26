@@ -1,8 +1,14 @@
 import { Sidebar } from "@/components/sidebar";
+import { setupAPIClient } from "@/services/api";
+import { canSSRAuth } from "@/utils/canSSRAuth";
 import { Flex, Heading, useMediaQuery, Text, Button } from "@chakra-ui/react";
 import Head from "next/head";
 
-export default function Plans() {
+interface PlansProps {
+  premium: boolean;
+}
+
+export default function Plans({ premium }: PlansProps) {
   const [isMobile] = useMediaQuery("(max-width: 500px)");
 
   return (
@@ -99,9 +105,18 @@ export default function Plans() {
                 R$ 9.99
               </Text>
 
-              <Button bg="button.cta" m={2} color="white" onClick={() => {}}>
-                VIRAR PREMIUM
+              <Button bg={premium ? 'transparent' : "button.cta"} disabled={premium} m={2} color="white" onClick={() => {}}>
+                {premium ? "VOCÊ JÁ É PREMIUM" : "VIRAR PREMIUM"}
               </Button>
+              {premium && (
+                <Button
+                  m={2}
+                  bg="white"
+                  color="barber.900"
+                  fontWeight="bold"
+                  onClick={() => {}}
+                >ALTERAR ASSINATURA</Button>
+              )}
             </Flex>
           </Flex>
         </Flex>
@@ -109,3 +124,26 @@ export default function Plans() {
     </>
   );
 }
+
+export const getServerSideProps = canSSRAuth(async (ctx) => {
+  try {
+    const apiClient = setupAPIClient(ctx);
+    const response = await apiClient.get("/me");
+
+    return {
+      props: {
+        premium:
+          response.data?.subscriptions?.status === "active" ? true : false,
+      },
+    };
+  } catch (err) {
+    console.log(err);
+
+    return {
+      redirect: {
+        destination: "/dashboard",
+        permanent: false,
+      },
+    };
+  }
+});
