@@ -2,8 +2,6 @@
 
 Sistema web desenvolvido como pré-projeto para outras aplicação, os recursos que existem dentro dessa aplicação serve exemplos para outros desenvolvimentos que envolva regras de CRUD e consumo de API.
 
-![image](https://user-images.githubusercontent.com/78622458/227774814-8a7af468-19a3-4a68-8c0b-c8fbbe71f311.png)
-
 ## Tecnologias
 
 **Cliente:** <br/>
